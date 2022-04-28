@@ -1,29 +1,40 @@
-# first-vue-app
+## **Commands**
 
-This template should help get you started developing with Vue 3 in Vite.
+Your Ledis should be able to handle the following. Note that these are modeled after Redis commands, so feel free to refer to Redis manual when you have questions.
 
-## Recommended IDE Setup
+### **String**
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
+- `SET key value`: set a string value, always overwriting what is saved under key
+- `GET key`: get a string value at key
 
-## Customize configuration
+### **Set**
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Set is an unordered collection of unique string values (duplicates not allowed).
 
-## Project Setup
+- `SADD key value1 [value2...]`: add values to set stored at key
+- `SREM key value1 [value2...]`: remove values from set. (Bonus: Show values are not removed (not exist) from set)
+- `SMEMBERS` *key*: return an array of all members of a set
+- `SINTER [key1] [key2] [key3] ...`: *(bonus)* set intersection among all set stored in specified keys. Return array of members of the result set. Ex: a: [1, 2, 3, 4], b: [2, 3, 4, 5], c: [3, 4, 5, 6]. The result of `SINTER a b c` is [3, 4]
 
-```sh
-npm install
-```
+### **Data Expiration**
 
-### Compile and Hot-Reload for Development
+- `KEYS`: List all available keys
+- `DEL key`: delete a key
+- `EXPIRE key seconds`: set a timeout on a key, *seconds* is a positive integer (by default a key has no expiration). Return the number of seconds if the timeout is set
+- `TTL key`: query the time remaining of a key. Return a message if key does not have timeout.
 
-```sh
-npm run dev
-```
+### **Snapshot (bonus)**
 
-### Compile and Minify for Production
+- *SAVE*: save the current state in a snapshot
+    - key1: ‘a’
+    - key2: 1 2 3 4 5
+- *RESTORE*: restore from the last snapshot,
+    - 
 
-```sh
-npm run build
-```
+### **Error Handling**
+
+When an error happens, simply return “ERROR”, together with the cause of the error if possible. Example: *“ERROR: Key not found”*
+
+## **Web CLI**
+
+Please build a simple web-based CLI interface that allows users to enter commands and displays the result (this is just an example, you could build a different UI):
